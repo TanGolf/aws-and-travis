@@ -10,3 +10,16 @@ before_install:
 # any return value other than 0 will mean that the script failed and travis will return a failed operation
 script:
     - docker run -e CI=true tangolf88/aws-and-travis npm run test
+
+# once the script has passed the deployment can be run
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-1"
+    app: "travis-and-aws"
+    env: "TravisAndAws-env"
+    bucket_name: "elasticbeanstalk-us-east-1-259629792391"
+    bucket_path: "travis-and-aws"
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
