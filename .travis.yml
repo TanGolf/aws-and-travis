@@ -1,0 +1,12 @@
+# sudo level privileges required
+sudo: required 
+# the docker service is needed
+services: 
+    - docker
+# before running the test or production steps, we need some commands to be carried out
+before_install: 
+    - docker build -t tangolf88/aws-and-travis -f Dockerfile.dev .
+
+# any return value other than 0 will mean that the script failed and travis will return a failed operation
+script:
+    - docker run -e CI=true tangolf88/aws-and-travis npm run test
